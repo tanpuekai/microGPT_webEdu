@@ -997,7 +997,7 @@ for sample_idx in range(20):
 
         // Python syntax highlighting
         function highlightPython(code) {
-            const keywords = ['def', 'class', 'return', 'if', 'else', 'elif', 'for', 'in', 'range', 'while', 'import', 'from', 'as', 'True', 'False', 'None', 'and', 'or', 'not', 'is', 'lambda', 'with', 'try', 'except', 'finally', 'raise', 'pass', 'break', 'continue', 'assert', 'global', 'nonlocal', 'del', 'yield', 'async', 'await'];
+            const keywords = ['def', 'class', 'return', 'if', 'else', 'elif', 'for', 'in', 'range', 'while', 'import', 'from', 'as', 'True', 'False', 'None', 'and', 'or', 'not', 'is', 'lambda', 'with', 'try', 'except', 'finally', 'raise', 'pass', 'break', 'continue', 'assert', 'global', 'nonlocal', 'del', 'yield', 'async', 'await', 'not'];
             const builtins = ['print', 'len', 'sum', 'max', 'min', 'abs', 'round', 'int', 'float', 'str', 'list', 'dict', 'set', 'tuple', 'bool', 'type', 'isinstance', 'open', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'reversed', 'any', 'all', 'range'];
 
             // Escape HTML first
@@ -1008,19 +1008,22 @@ for sample_idx in range(20):
 
             // Mark strings and comments to prevent them from being highlighted
             const stringCommentMatches = [];
+            let markerIndex = 0;
 
-            // Match strings (triple, single, double quoted)
-            const stringRegex = /("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g;
-            result = result.replace(stringRegex, (match) => {
-                stringCommentMatches.push({type: 'string', match});
-                return '\uE000' + (stringCommentMatches.length - 1) + '\uE001';
+            // Match comments (must do BEFORE strings to avoid matching # inside f-strings)
+            const commentRegex = /#.*$/gm;
+            result = result.replace(commentRegex, (match) => {
+                const idx = markerIndex++;
+                stringCommentMatches[idx] = {type: 'comment', match};
+                return '<<<PYHLCMT' + idx + '>>>';
             });
 
-            // Match comments
-            const commentRegex = /(#.*)$/gm;
-            result = result.replace(commentRegex, (match) => {
-                stringCommentMatches.push({type: 'comment', match});
-                return '\uE000' + (stringCommentMatches.length - 1) + '\uE001';
+            // Match strings (triple, single, double quoted, including f-strings, r-strings)
+            const stringRegex = /(?:[frbFRB]*"""[\s\S]*?"""|[frbFRB]*'''[\s\S]*?'''|[frbFRB]*?"(?:[^"\\]|\\.)*"|[frbFRB]*?'(?:[^'\\]|\\.)*')/g;
+            result = result.replace(stringRegex, (match) => {
+                const idx = markerIndex++;
+                stringCommentMatches[idx] = {type: 'string', match};
+                return '<<<PYHLSTR' + idx + '>>>';
             });
 
             // Highlight keywords (not inside strings/comments)
@@ -1037,14 +1040,16 @@ for sample_idx in range(20):
             // Highlight numbers
             result = result.replace(/\b(\d+\.?\d*)\b/g, '<span class="py-number">$1</span>');
 
-            // Restore strings and comments with proper highlighting
-            result = result.replace(/\uE000(\d+)\uE001/g, (match, index) => {
+            // Restore comments with proper highlighting
+            result = result.replace(/<<<PYHLCMT(\d+)>>>/g, (match, index) => {
                 const item = stringCommentMatches[index];
-                if (item.type === 'string') {
-                    return '<span class="py-string">' + item.match + '</span>';
-                } else {
-                    return '<span class="py-comment">' + item.match + '</span>';
-                }
+                return '<span class="py-comment">' + item.match + '</span>';
+            });
+
+            // Restore strings with proper highlighting
+            result = result.replace(/<<<PYHLSTR(\d+)>>>/g, (match, index) => {
+                const item = stringCommentMatches[index];
+                return '<span class="py-string">' + item.match + '</span>';
             });
 
             return result;
