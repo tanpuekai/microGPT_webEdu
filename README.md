@@ -4,6 +4,10 @@
 
 This visualization demonstrates the core Transformer architecture from seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017) with direct references to the actual Python code.
 
+## Screenshot
+
+![Screenshot](Screenshot.png)
+
 ---
 
 ## Features
