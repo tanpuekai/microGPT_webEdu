@@ -999,38 +999,53 @@ for sample_idx in range(20):
         function highlightPython(code) {
             const keywords = ['def', 'class', 'return', 'if', 'else', 'elif', 'for', 'in', 'range', 'while', 'import', 'from', 'as', 'True', 'False', 'None', 'and', 'or', 'not', 'is', 'lambda', 'with', 'try', 'except', 'finally', 'raise', 'pass', 'break', 'continue', 'assert', 'global', 'nonlocal', 'del', 'yield', 'async', 'await'];
             const builtins = ['print', 'len', 'sum', 'max', 'min', 'abs', 'round', 'int', 'float', 'str', 'list', 'dict', 'set', 'tuple', 'bool', 'type', 'isinstance', 'open', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'reversed', 'any', 'all', 'range'];
-            const decorators = ['@'];
 
+            // Escape HTML first
             let result = code
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
 
-            // Strings (triple and single/double quoted)
-            result = result.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span class="py-string">$1</span>');
+            // Mark strings and comments to prevent them from being highlighted
+            const stringCommentMatches = [];
 
-            // Comments
-            result = result.replace(/(#.*)$/gm, '<span class="py-comment">$1</span>');
+            // Match strings (triple, single, double quoted)
+            const stringRegex = /("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g;
+            result = result.replace(stringRegex, (match) => {
+                stringCommentMatches.push({type: 'string', match});
+                return '\uE000' + (stringCommentMatches.length - 1) + '\uE001';
+            });
 
-            // Decorators
-            result = result.replace(/^(\s*)(@\w+)/gm, '$1<span class="py-decorator">$2</span>');
+            // Match comments
+            const commentRegex = /(#.*)$/gm;
+            result = result.replace(commentRegex, (match) => {
+                stringCommentMatches.push({type: 'comment', match});
+                return '\uE000' + (stringCommentMatches.length - 1) + '\uE001';
+            });
 
-            // Keywords
-            const keywordPattern = new RegExp(`\\b(${keywords.join('|')})\\b`, 'g');
+            // Highlight keywords (not inside strings/comments)
+            const keywordPattern = new RegExp('\\b(' + keywords.join('|') + ')\\b', 'g');
             result = result.replace(keywordPattern, '<span class="py-keyword">$1</span>');
 
-            // Built-ins
-            const builtinPattern = new RegExp(`\\b(${builtins.join('|')})\\b`, 'g');
+            // Highlight built-ins
+            const builtinPattern = new RegExp('\\b(' + builtins.join('|') + ')\\b', 'g');
             result = result.replace(builtinPattern, '<span class="py-builtin">$1</span>');
 
-            // Function definitions
-            result = result.replace(/\b(def|class)\s+(\w+)/g, '<span class="py-keyword">$1</span> <span class="py-function">$2</span>');
+            // Highlight function names after def/class
+            result = result.replace(/\b(def|class)\s+([a-zA-Z_]\w*)/g, '<span class="py-keyword">$1</span> <span class="py-function">$2</span>');
 
-            // Numbers
+            // Highlight numbers
             result = result.replace(/\b(\d+\.?\d*)\b/g, '<span class="py-number">$1</span>');
 
-            // Operators
-            result = result.replace(/([+\-*/%=<>!&|^~?:]+)/g, '<span class="py-operator">$1</span>');
+            // Restore strings and comments with proper highlighting
+            result = result.replace(/\uE000(\d+)\uE001/g, (match, index) => {
+                const item = stringCommentMatches[index];
+                if (item.type === 'string') {
+                    return '<span class="py-string">' + item.match + '</span>';
+                } else {
+                    return '<span class="py-comment">' + item.match + '</span>';
+                }
+            });
 
             return result;
         }
