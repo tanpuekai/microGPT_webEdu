@@ -3,7 +3,16 @@
 > **An interactive educational tool to help understand Andrej Karpathy's [`microgpt.py`](microgpt.py) implementation** - the most atomic way to train and inference a GPT in pure Python.
 
 This visualization demonstrates the core Transformer architecture from seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017) with direct references to the actual Python code.
+## Usage
 
+Simply open [`index.html`](index.html) in your browser:
+
+```bash
+open index.html
+# or
+python -m http.server 8000
+# Then visit http://localhost:8000
+```
 ## Screenshot
 
 ![Screenshot](Screenshot.png)
@@ -95,18 +104,7 @@ The model is trained on a names dataset to generate new name-like sequences:
 
 ---
 
-## Usage
 
-### Local
-
-Simply open [`index.html`](index.html) in your browser:
-
-```bash
-open index.html
-# or
-python -m http.server 8000
-# Then visit http://localhost:8000
-```
 
 ### Interactive Features
 
