@@ -1,6 +1,10 @@
 # MicroGPT - Interactive Educational Visualization
 
-An interactive web-based educational guide through a minimal GPT implementation in pure Python. This visualization demonstrates the core Transformer architecture from the seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017).
+> **An interactive educational tool to help understand Andrej Karpathy's [`microgpt.py`](microgpt.py) implementation** - the most atomic way to train and inference a GPT in pure Python.
+
+This visualization demonstrates the core Transformer architecture from seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017) with direct references to the actual Python code.
+
+---
 
 ## Features
 
@@ -14,7 +18,9 @@ An interactive web-based educational guide through a minimal GPT implementation 
   - 🏋️ Training - Complete training loop breakdown
 - **Interactive elements**: Animated forward pass, attention heatmaps, parameter cards
 
-## MicroGPT Implementation
+---
+
+## MicroGPT Implementation by @karpathy
 
 The [`microgpt.py`](microgpt.py) file contains a complete GPT implementation in **pure Python with zero external dependencies** - no PyTorch, no TensorFlow, no NumPy.
 
@@ -61,6 +67,8 @@ The model is trained on a names dataset to generate new name-like sequences:
 4. **Backward**: `loss.backward()` computes all gradients
 5. **Adam**: Update parameters with momentum and adaptive learning rates
 
+---
+
 ## Connection to "Attention Is All You Need" (2017)
 
 | Paper Component | MicroGPT Variable | Notes |
@@ -81,6 +89,8 @@ The model is trained on a names dataset to generate new name-like sequences:
 - **Activation**: ReLU² approximates squared ReLU (similar to GeLU's shape)
 - **Scale**: Educational scale (tiny model) vs production scale
 
+---
+
 ## Usage
 
 ### Local
@@ -96,10 +106,12 @@ python -m http.server 8000
 
 ### Interactive Features
 
-- **Click architecture blocks** to jump to the corresponding code
+- **Click architecture blocks** to jump to corresponding code
 - **Click parameter cards** to see their definitions
 - **Use "Animate Forward"** to watch data flow through the model
 - **Hover over attention cells** for detailed weight information
+
+---
 
 ## Credits
 
