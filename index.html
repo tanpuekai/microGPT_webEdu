@@ -17,6 +17,9 @@
             --accent-orange: #f97316;
             --accent-red: #ef4444;
             --accent-yellow: #eab308;
+            --code-bg: #1a1a2e;
+            --code-highlight: #3b82f633;
+            --code-line-number: #475569;
         }
 
         * {
@@ -30,17 +33,28 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
             background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            padding: 2rem;
+            padding: 1rem 2rem;
             border-bottom: 2px solid var(--accent-blue);
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .header-left {
+            flex: 1;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -49,18 +63,17 @@
 
         header p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
         .paper-link {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             background: var(--accent-blue);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
         }
 
@@ -69,24 +82,94 @@
             transform: translateY(-2px);
         }
 
-        main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+        /* Split Pane Layout */
+        .split-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
         }
+
+        .left-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            border-right: 2px solid var(--bg-tertiary);
+            min-width: 400px;
+        }
+
+        .right-panel {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--code-bg);
+            min-width: 500px;
+            position: relative;
+        }
+
+        main {
+            max-width: 100%;
+        }
+
+        /* Code Viewer */
+        .code-viewer {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .code-line {
+            display: flex;
+            padding: 2px 0;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+
+        .code-line.highlighted {
+            background: var(--code-highlight);
+        }
+
+        .code-line-number {
+            min-width: 50px;
+            text-align: right;
+            padding-right: 1rem;
+            color: var(--code-line-number);
+            user-select: none;
+            border-right: 1px solid var(--bg-tertiary);
+            margin-right: 1rem;
+        }
+
+        .code-line-content {
+            flex: 1;
+            padding: 0 1rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Python Syntax Highlighting */
+        .py-keyword { color: #c792ea; }
+        .py-function { color: #82aaff; }
+        .py-class { color: #ffcb6b; }
+        .py-string { color: #c3e88d; }
+        .py-number { color: #f78c6c; }
+        .py-comment { color: #546e7a; font-style: italic; }
+        .py-operator { color: #89ddff; }
+        .py-builtin { color: #f07178; }
+        .py-variable { color: #f1f5f9; }
+        .py-decorator { color: #c792ea; }
+        .py-annotation { color: #ffcb6b; }
 
         .section {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .section h2 {
             color: var(--accent-blue);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -94,24 +177,25 @@
 
         .section h3 {
             color: var(--accent-purple);
-            margin: 1.5rem 0 1rem;
-            font-size: 1.3rem;
+            margin: 1rem 0 0.5rem;
+            font-size: 1.1rem;
         }
 
         .section p {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .code-snippet {
             background: var(--bg-primary);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 6px;
+            padding: 0.75rem;
             font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             overflow-x: auto;
             border-left: 3px solid var(--accent-green);
-            margin: 1rem 0;
+            margin: 0.5rem 0;
         }
 
         .code-var {
@@ -132,24 +216,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 0.5rem;
+            padding: 0.5rem;
         }
 
         .arch-block {
             background: var(--bg-tertiary);
             border: 2px solid var(--accent-blue);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            min-width: 300px;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            min-width: 200px;
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .arch-block:hover {
             border-color: var(--accent-purple);
-            transform: scale(1.05);
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
         }
 
         .arch-block.active {
@@ -159,295 +245,42 @@
 
         .arch-block .block-name {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .arch-block .block-var {
             color: var(--accent-yellow);
             font-family: monospace;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .arch-arrow {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: var(--accent-blue);
         }
 
         .arch-row {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             align-items: center;
-        }
-
-        /* Parameter Grid */
-        .param-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .param-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--accent-blue);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .param-card:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .param-card .param-name {
-            color: var(--accent-green);
-            font-family: monospace;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .param-card .param-value {
-            color: var(--accent-orange);
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        /* Autograd Visualization */
-        .graph-container {
-            position: relative;
-            height: 400px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--accent-blue);
-        }
-
-        .graph-node {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--accent-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: monospace;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-
-        .graph-node:hover {
-            background: var(--accent-blue);
-            border-color: var(--accent-purple);
-            transform: scale(1.1);
-        }
-
-        .graph-node.loss {
-            border-color: var(--accent-red);
-            background: rgba(239, 68, 68, 0.2);
-        }
-
-        .graph-node.param {
-            border-color: var(--accent-green);
-            border-radius: 8px;
-        }
-
-        .graph-node.active {
-            box-shadow: 0 0 20px var(--accent-purple);
-        }
-
-        .graph-edge {
-            position: absolute;
-            height: 2px;
-            background: var(--accent-blue);
-            transform-origin: left center;
-            z-index: 1;
-            opacity: 0.5;
-        }
-
-        .gradient-display {
-            background: var(--bg-primary);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            font-family: monospace;
-            border-left: 3px solid var(--accent-yellow);
-        }
-
-        /* Attention Mechanism */
-        .attention-grid {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 2px;
-            max-width: 400px;
-            margin: 1rem auto;
-        }
-
-        .attention-cell {
-            aspect-ratio: 1;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-family: monospace;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .attention-cell:hover {
-            transform: scale(1.2);
-            z-index: 10;
-        }
-
-        .head-viz {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .head-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--accent-blue);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .head-card h4 {
-            color: var(--accent-purple);
-            margin-bottom: 0.5rem;
-            font-family: monospace;
-        }
-
-        /* Training Flow */
-        .flow-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .flow-step {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-blue);
-            transition: all 0.3s ease;
-        }
-
-        .flow-step:hover {
-            border-left-color: var(--accent-purple);
-            background: var(--bg-tertiary);
-        }
-
-        .flow-step.active {
-            border-left-color: var(--accent-green);
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
-        }
-
-        .flow-step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--accent-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .flow-step-content {
-            flex: 1;
-        }
-
-        .flow-step-title {
-            color: var(--text-primary);
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-
-        .flow-step-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Controls */
-        .controls {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: var(--accent-purple);
-            transform: translateY(-2px);
-        }
-
-        .btn.secondary {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--accent-blue);
-        }
-
-        .btn.secondary:hover {
-            background: var(--accent-blue);
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            background: var(--bg-primary);
-            border-radius: 8px;
-            height: 30px;
-            overflow: hidden;
-            margin-top: 1rem;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            transition: width 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
         }
 
         /* Tabs */
         .tabs {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
             border-bottom: 2px solid var(--accent-blue);
+            flex-wrap: wrap;
         }
 
         .tab {
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             background: transparent;
             color: var(--text-secondary);
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
@@ -468,93 +301,40 @@
             display: block;
         }
 
-        /* Tooltip */
-        .tooltip {
-            position: fixed;
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
             background: var(--bg-tertiary);
             border: 1px solid var(--accent-blue);
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-size: 0.85rem;
-            max-width: 300px;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
-        .tooltip.show {
-            opacity: 1;
+        .btn.secondary:hover {
+            background: var(--accent-blue);
         }
 
-        /* Equations */
-        .equation {
-            background: var(--bg-primary);
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            margin: 1rem 0;
-            border-left: 3px solid var(--accent-purple);
-        }
-
-        /* Layer Visualization */
-        .layer-viz {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .layer-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        .layer-item .layer-label {
-            color: var(--accent-purple);
-            min-width: 150px;
-        }
-
-        .layer-item .layer-shape {
-            color: var(--accent-orange);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--bg-tertiary);
-        }
-
-        footer a {
-            color: var(--accent-blue);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            .arch-row {
-                flex-direction: column;
-            }
-
-            .param-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Animation for active elements */
+        /* Animation */
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -564,502 +344,747 @@
             animation: pulse 1s ease-in-out infinite;
         }
 
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            max-width: 250px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        /* Code header */
+        .code-header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent-blue);
+            z-index: 100;
+        }
+
+        .code-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .code-header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .code-header-actions button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .split-container {
+                flex-direction: column;
+            }
+
+            .left-panel, .right-panel {
+                min-width: auto;
+                max-height: 50vh;
+            }
+
+            header h1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* Attention Grid */
+        .attention-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            max-width: 300px;
+            margin: 0.5rem auto;
+        }
+
+        .attention-cell {
+            aspect-ratio: 1;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-family: monospace;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .attention-cell:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        /* Parameter Grid */
+        .param-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .param-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .param-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .param-card .param-name {
+            color: var(--accent-green);
+            font-family: monospace;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .param-card .param-value {
+            color: var(--accent-orange);
+            font-size: 1.1rem;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🧠 MicroGPT Visualization</h1>
-        <p>An interactive educational guide through a minimal GPT implementation in pure Python</p>
-        <a href="https://arxiv.org/abs/1706.03762" target="_blank" class="paper-link">
-            📄 Attention Is All You Need (2017)
-        </a>
+        <div class="header-left">
+            <h1>🧠 MicroGPT Visualization</h1>
+            <p>Interactive educational guide • Click architecture blocks to see code</p>
+        </div>
+        <div>
+            <a href="https://arxiv.org/abs/1706.03762" target="_blank" class="paper-link">
+                📄 Attention Is All You Need (2017)
+            </a>
+        </div>
     </header>
 
-    <main>
-        <!-- Overview Section -->
-        <section class="section">
-            <h2>📖 Overview</h2>
-            <p>This visualization walks through <a href="microgpt.py" style="color:var(--accent-blue)">microgpt.py</a> - a complete GPT implementation in pure Python with zero external dependencies. It demonstrates the core Transformer architecture from the 2017 paper <a href="https://arxiv.org/abs/1706.03762" target="_blank" style="color:var(--accent-blue)">"Attention Is All You Need"</a>.</p>
+    <div class="split-container">
+        <div class="left-panel">
+            <main>
+                <!-- Architecture Tab -->
+                <section class="section">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="architecture">Architecture</button>
+                        <button class="tab" data-tab="autograd">Autograd</button>
+                        <button class="tab" data-tab="attention">Attention</button>
+                        <button class="tab" data-tab="training">Training</button>
+                    </div>
 
-            <div class="code-snippet">
-<span class="code-comment"># The complete algorithm, nothing but efficiency elsewhere</span>
-<span class="code-var">n_embd</span> = 16      <span class="code-comment"># embedding dimension</span>
-<span class="code-var">n_head</span> = 4       <span class="code-comment"># number of attention heads</span>
-<span class="code-var">n_layer</span> = 1      <span class="code-comment"># number of transformer layers</span>
-<span class="code-var">block_size</span> = 8   <span class="code-comment"># maximum sequence length</span>
-            </div>
+                    <div id="architecture" class="tab-content active">
+                        <h3>🏗️ Model Architecture</h3>
+                        <p>Click blocks to jump to code</p>
 
-            <div class="tabs">
-                <button class="tab active" data-tab="architecture">Architecture</button>
-                <button class="tab" data-tab="autograd">Autograd</button>
-                <button class="tab" data-tab="attention">Attention</button>
-                <button class="tab" data-tab="training">Training Loop</button>
-            </div>
+                        <div class="arch-container">
+                            <div class="arch-row">
+                                <div class="arch-block" data-block="input" data-lines="156-158">
+                                    <div class="block-name">Input</div>
+                                    <div class="block-var">token_id, pos_id</div>
+                                </div>
+                                <div class="arch-arrow">→</div>
+                                <div class="arch-block" data-block="embed" data-lines="74-86,109-111">
+                                    <div class="block-name">Embeddings</div>
+                                    <div class="block-var">wte, wpe</div>
+                                </div>
+                            </div>
 
-            <!-- Architecture Tab -->
-            <div id="architecture" class="tab-content active">
-                <h3>🏗️ Model Architecture</h3>
-                <p>Flow from <span class="code-var">gpt(token_id, pos_id, keys, values)</span> function:</p>
+                            <div class="arch-arrow">↓</div>
 
-                <div class="arch-container">
-                    <div class="arch-row">
-                        <div class="arch-block" data-block="input">
-                            <div class="block-name">Input</div>
-                            <div class="block-var">token_id, pos_id</div>
+                            <div class="arch-block" data-block="prenorm" data-lines="103-106,112">
+                                <div class="block-name">Pre-Norm</div>
+                                <div class="block-var">rmsnorm(x)</div>
+                            </div>
+
+                            <div class="arch-arrow">↓</div>
+
+                            <div class="arch-row">
+                                <div class="arch-block" data-block="attn" data-lines="118-133">
+                                    <div class="block-name">Multi-Head Attention</div>
+                                    <div class="block-var">attn_wq, attn_wk, attn_wv, attn_wo</div>
+                                </div>
+                                <div class="arch-arrow">+</div>
+                                <div class="arch-block" data-block="residual1" data-lines="116,134">
+                                    <div class="block-name">Residual</div>
+                                    <div class="block-var">x + x_attn</div>
+                                </div>
+                            </div>
+
+                            <div class="arch-arrow">↓</div>
+
+                            <div class="arch-row">
+                                <div class="arch-block" data-block="mlp" data-lines="136-141">
+                                    <div class="block-name">MLP</div>
+                                    <div class="block-var">mlp_fc1, ReLU², mlp_fc2</div>
+                                </div>
+                                <div class="arch-arrow">+</div>
+                                <div class="arch-block" data-block="residual2" data-lines="136,141">
+                                    <div class="block-name">Residual</div>
+                                    <div class="block-var">x + x_mlp</div>
+                                </div>
+                            </div>
+
+                            <div class="arch-arrow">↓</div>
+
+                            <div class="arch-block" data-block="output" data-lines="143">
+                                <div class="block-name">Output</div>
+                                <div class="block-var">logits = lm_head(x)</div>
+                            </div>
                         </div>
-                        <div class="arch-arrow">→</div>
-                        <div class="arch-block" data-block="embed">
-                            <div class="block-name">Embeddings</div>
-                            <div class="block-var">wte, wpe</div>
+
+                        <h3>📊 Parameters (click to jump)</h3>
+                        <div class="param-grid">
+                            <div class="param-card" data-lines="14-27,74-86">
+                                <div class="param-name">vocab_size</div>
+                                <div class="param-value">27</div>
+                            </div>
+                            <div class="param-card" data-lines="75">
+                                <div class="param-name">n_embd</div>
+                                <div class="param-value">16</div>
+                            </div>
+                            <div class="param-card" data-lines="76">
+                                <div class="param-name">n_head</div>
+                                <div class="param-value">4</div>
+                            </div>
+                            <div class="param-card" data-lines="77">
+                                <div class="param-name">n_layer</div>
+                                <div class="param-value">1</div>
+                            </div>
+                            <div class="param-card" data-lines="78">
+                                <div class="param-name">block_size</div>
+                                <div class="param-value">8</div>
+                            </div>
+                            <div class="param-card" data-lines="81">
+                                <div class="param-name">wte, wpe</div>
+                                <div class="param-value">embed</div>
+                            </div>
+                            <div class="param-card" data-lines="83-86">
+                                <div class="param-name">attn_*</div>
+                                <div class="param-value">attn</div>
+                            </div>
+                            <div class="param-card" data-lines="87-88">
+                                <div class="param-name">mlp_*</div>
+                                <div class="param-value">mlp</div>
+                            </div>
+                        </div>
+
+                        <div class="controls">
+                            <button class="btn" onclick="animateArchitecture()">▶️ Animate Forward</button>
                         </div>
                     </div>
 
-                    <div class="arch-arrow">↓</div>
-
-                    <div class="arch-block" data-block="prenorm">
-                        <div class="block-name">Pre-Norm</div>
-                        <div class="block-var">rmsnorm(x)</div>
-                    </div>
-
-                    <div class="arch-arrow">↓</div>
-
-                    <div class="arch-row">
-                        <div class="arch-block" data-block="attn">
-                            <div class="block-name">Multi-Head Attention</div>
-                            <div class="block-var">attn_wq, attn_wk, attn_wv, attn_wo</div>
+                    <div id="autograd" class="tab-content">
+                        <h3>🔄 Value Class - Autograd</h3>
+                        <div class="arch-block" data-block="value" data-lines="30-72" style="margin: 0.5rem auto; min-width: 250px;">
+                            <div class="block-name">Value Class</div>
+                            <div class="block-var">class Value</div>
                         </div>
-                        <div class="arch-arrow">+</div>
-                        <div class="arch-block" data-block="residual1">
-                            <div class="block-name">Residual</div>
-                            <div class="block-var">x + x_attn</div>
+
+                        <h3>📈 Key Methods</h3>
+                        <div class="param-grid">
+                            <div class="param-card" data-lines="33-37">
+                                <div class="param-name">__init__</div>
+                                <div class="param-value">init</div>
+                            </div>
+                            <div class="param-card" data-lines="39-41">
+                                <div class="param-name">__add__</div>
+                                <div class="param-value">+</div>
+                            </div>
+                            <div class="param-card" data-lines="43-45">
+                                <div class="param-name">__mul__</div>
+                                <div class="param-value">×</div>
+                            </div>
+                            <div class="param-card" data-lines="47-50">
+                                <div class="param-name">log, exp</div>
+                                <div class="param-value">math</div>
+                            </div>
+                            <div class="param-card" data-lines="50">
+                                <div class="param-name">relu</div>
+                                <div class="param-value">act</div>
+                            </div>
+                            <div class="param-card" data-lines="59-72">
+                                <div class="param-name">backward</div>
+                                <div class="param-value">backprop</div>
+                            </div>
+                        </div>
+
+                        <h3>🔗 Chain Rule</h3>
+                        <div class="code-snippet" style="font-size: 0.75rem;">
+∂L/∂x = Σ (∂L/∂y) × (∂y/∂x)<br>
+Topological sort → gradient accumulation
+                        </div>
+
+                        <div class="controls">
+                            <button class="btn" data-lines="59-72">▶️ Show backward()</button>
                         </div>
                     </div>
 
-                    <div class="arch-arrow">↓</div>
-
-                    <div class="arch-row">
-                        <div class="arch-block" data-block="mlp">
-                            <div class="block-name">MLP</div>
-                            <div class="block-var">mlp_fc1, ReLU^2, mlp_fc2</div>
+                    <div id="attention" class="tab-content">
+                        <h3>👁️ Multi-Head Attention</h3>
+                        <div class="arch-block" data-block="attn-code" data-lines="118-133" style="margin: 0.5rem auto; min-width: 250px;">
+                            <div class="block-name">Attention Loop</div>
+                            <div class="block-var">lines 118-133</div>
                         </div>
-                        <div class="arch-arrow">+</div>
-                        <div class="arch-block" data-block="residual2">
-                            <div class="block-name">Residual</div>
-                            <div class="block-var">x + x_mlp</div>
+
+                        <h3>🎯 Attention Pattern</h3>
+                        <div class="attention-grid" id="attentionGrid"></div>
+
+                        <h3>🧩 Head Structure</h3>
+                        <div class="param-grid">
+                            <div class="param-card" data-lines="124">
+                                <div class="param-name">Query (q_h)</div>
+                                <div class="param-value">lines 124</div>
+                            </div>
+                            <div class="param-card" data-lines="125">
+                                <div class="param-name">Keys (k_h)</div>
+                                <div class="param-value">line 125</div>
+                            </div>
+                            <div class="param-card" data-lines="126">
+                                <div class="param-name">Values (v_h)</div>
+                                <div class="param-value">line 126</div>
+                            </div>
+                            <div class="param-card" data-lines="129">
+                                <div class="param-name">Softmax</div>
+                                <div class="param-value">line 129</div>
+                            </div>
+                        </div>
+
+                        <div class="controls">
+                            <button class="btn" onclick="animateAttention()">▶️ Animate</button>
+                            <button class="btn secondary" onclick="randomizeAttention()">🎲 Randomize</button>
                         </div>
                     </div>
 
-                    <div class="arch-arrow">↓</div>
+                    <div id="training" class="tab-content">
+                        <h3>🏋️ Training Loop</h3>
+                        <p>Click steps to see code</p>
 
-                    <div class="arch-block" data-block="output">
-                        <div class="block-name">Output</div>
-                        <div class="block-var">logits = lm_head(x)</div>
-                    </div>
-                </div>
+                        <div class="arch-container">
+                            <div class="arch-block" data-block="tokenize" data-lines="155-158">
+                                <div class="block-name">1. Tokenize</div>
+                                <div class="block-var">lines 155-158</div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-block" data-block="forward" data-lines="161-169">
+                                <div class="block-name">2. Forward</div>
+                                <div class="block-var">lines 161-169</div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-block" data-block="loss" data-lines="167-169">
+                                <div class="block-name">3. Loss</div>
+                                <div class="block-var">lines 167-169</div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-block" data-block="backward" data-lines="172">
+                                <div class="block-name">4. Backward</div>
+                                <div class="block-var">line 172</div>
+                            </div>
+                            <div class="arch-arrow">↓</div>
+                            <div class="arch-block" data-block="adam" data-lines="176-182">
+                                <div class="block-name">5. Adam Update</div>
+                                <div class="block-var">lines 176-182</div>
+                            </div>
+                        </div>
 
-                <h3>📊 Parameter Dimensions</h3>
-                <div class="layer-viz">
-                    <div class="layer-item">
-                        <span class="layer-label">wte</span>
-                        <span class="layer-shape">(vocab_size, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (27, 16)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">wpe</span>
-                        <span class="layer-shape">(block_size, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (8, 16)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">attn_wq, attn_wk, attn_wv</span>
-                        <span class="layer-shape">(n_embd, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (16, 16)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">attn_wo</span>
-                        <span class="layer-shape">(n_embd, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (16, 16)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">mlp_fc1</span>
-                        <span class="layer-shape">(4 * n_embd, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (64, 16)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">mlp_fc2</span>
-                        <span class="layer-shape">(n_embd, 4 * n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (16, 64)</span>
-                    </div>
-                    <div class="layer-item">
-                        <span class="layer-label">lm_head</span>
-                        <span class="layer-shape">(vocab_size, n_embd)</span>
-                        <span style="color:var(--text-secondary)">= (27, 16)</span>
-                    </div>
-                </div>
-
-                <h3>🎮 Interactive Architecture Controls</h3>
-                <div class="controls">
-                    <button class="btn" onclick="animateArchitecture()">▶️ Animate Forward Pass</button>
-                    <button class="btn secondary" onclick="resetArchitecture()">↺ Reset</button>
-                </div>
-            </div>
-
-            <!-- Autograd Tab -->
-            <div id="autograd" class="tab-content">
-                <h3>🔄 The Value Class - Autograd Engine</h3>
-                <p>The <span class="code-func">Value</span> class implements automatic differentiation by building a computation graph and applying the chain rule.</p>
-
-                <div class="code-snippet">
-class <span class="code-func">Value</span>:
-    def <span class="code-func">__init__</span>(self, data, children=(), local_grads=()):
-        self.data = data                <span class="code-comment"># forward pass value</span>
-        self.grad = 0                   <span class="code-comment"># gradient (∂loss/∂node)</span>
-        self._children = children       <span class="code-comment"># graph edges</span>
-        self._local_grads = local_grads <span class="code-comment"># ∂self/∂child</span>
-                </div>
-
-                <h3>📈 Computation Graph Visualization</h3>
-                <p>Click on a node to see its gradient information. The graph shows a simplified forward pass for a single output token.</p>
-
-                <div class="graph-container" id="computationGraph">
-                    <!-- Nodes will be generated by JavaScript -->
-                </div>
-
-                <div class="gradient-display" id="gradientInfo">
-                    Hover over or click a node to see gradient information...
-                </div>
-
-                <h3>🔗 Chain Rule in Action</h3>
-                <div class="equation">
-                    ∂L/∂x = Σ<sub>y∈children(x)</sub> (∂L/∂y) × (∂y/∂x)
-                </div>
-                <p>The <span class="code-func">backward()</span> method topologically sorts the graph and propagates gradients from loss to all parameters.</p>
-
-                <div class="code-snippet">
-def <span class="code-func">backward</span>(self):
-    <span class="code-comment"># Topological sort + gradient accumulation</span>
-    self.grad = 1  <span class="code-comment"># ∂loss/∂loss = 1</span>
-    for v in reversed(topo):
-        for child, local_grad in zip(v._children, v._local_grads):
-            child.grad += local_grad * v.grad
-                </div>
-
-                <h3>🎮 Controls</h3>
-                <div class="controls">
-                    <button class="btn" onclick="animateBackprop()">▶️ Animate Backpropagation</button>
-                    <button class="btn secondary" onclick="resetGraph()">↺ Reset</button>
-                </div>
-            </div>
-
-            <!-- Attention Tab -->
-            <div id="attention" class="tab-content">
-                <h3>👁️ Multi-Head Attention Mechanism</h3>
-                <p>Core innovation from "Attention Is All You Need" (2017). Each position attends to all previous positions with learnable weights.</p>
-
-                <div class="code-snippet">
-<span class="code-comment"># For each head h in range(n_head):</span>
-q = <span class="code-func">linear</span>(x, attn_wq)  <span class="code-comment"># Query</span>
-k = <span class="code-func">linear</span>(x, attn_wk)  <span class="code-comment"># Key</span>
-v = <span class="code-func">linear</span>(x, attn_wv)  <span class="code-comment"># Value</span>
-
-<span class="code-comment"># Scaled dot-product attention</span>
-attn_logits = <span class="code-func">sum</span>(q * k) / head_dim**0.5
-attn_weights = <span class="code-func">softmax</span>(attn_logits)
-head_out = <span class="code-func">sum</span>(attn_weights * v)
-                </div>
-
-                <h3>🎯 Attention Pattern Visualization</h3>
-                <p>Casual attention: each position can only attend to itself and previous positions. The heatmap shows attention weights (lighter = higher weight).</p>
-
-                <div class="attention-grid" id="attentionGrid">
-                    <!-- Generated by JavaScript -->
-                </div>
-
-                <div style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
-                    Rows = Query positions (t), Columns = Key positions (τ)
-                </div>
-
-                <h3>🧩 Multi-Head Structure</h3>
-                <div class="head-viz">
-                    <div class="head-card">
-                        <h4>Head 0</h4>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">dim: 0-3</div>
-                        <div style="margin-top: 0.5rem; color: var(--accent-green);">Q₀, K₀, V₀</div>
-                    </div>
-                    <div class="head-card">
-                        <h4>Head 1</h4>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">dim: 4-7</div>
-                        <div style="margin-top: 0.5rem; color: var(--accent-orange);">Q₁, K₁, V₁</div>
-                    </div>
-                    <div class="head-card">
-                        <h4>Head 2</h4>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">dim: 8-11</div>
-                        <div style="margin-top: 0.5rem; color: var(--accent-red);">Q₂, K₂, V₂</div>
-                    </div>
-                    <div class="head-card">
-                        <h4>Head 3</h4>
-                        <div style="font-size: 0.8rem; color: var(--text-secondary);">dim: 12-15</div>
-                        <div style="margin-top: 0.5rem; color: var(--accent-blue);">Q₃, K₃, V₃</div>
-                    </div>
-                </div>
-
-                <h3>📏 Scaled Dot-Product Attention</h3>
-                <div class="equation">
-                    Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>)V
-                </div>
-                <p>Scaling by √d<sub>k</sub> prevents the dot products from growing too large in high dimensions, which would push softmax into regions of extremely small gradients.</p>
-
-                <h3>🎮 Controls</h3>
-                <div class="controls">
-                    <button class="btn" onclick="animateAttention()">▶️ Animate Attention Flow</button>
-                    <button class="btn secondary" onclick="randomizeAttention()">🎲 Randomize Weights</button>
-                </div>
-            </div>
-
-            <!-- Training Tab -->
-            <div id="training" class="tab-content">
-                <h3>🏋️ Training Loop</h3>
-                <p>The complete training pipeline for <span class="code-var">num_steps = 500</span> iterations.</p>
-
-                <div class="flow-container">
-                    <div class="flow-step" id="step1">
-                        <div class="flow-step-number">1</div>
-                        <div class="flow-step-content">
-                            <div class="flow-step-title">Tokenization</div>
-                            <div class="flow-step-desc">doc → [BOS] + tokens + [BOS]</div>
-                            <div class="code-snippet" style="margin: 0.5rem 0 0;">
-tokens = [BOS] + [uchars.index(ch) for ch in doc] + [BOS]
+                        <h3>📊 Hyperparameters</h3>
+                        <div class="param-grid">
+                            <div class="param-card" data-lines="147">
+                                <div class="param-name">lr</div>
+                                <div class="param-value">1e-2</div>
+                            </div>
+                            <div class="param-card" data-lines="147">
+                                <div class="param-name">beta1,2</div>
+                                <div class="param-value">0.9,0.95</div>
+                            </div>
+                            <div class="param-card" data-lines="152">
+                                <div class="param-name">steps</div>
+                                <div class="param-value">500</div>
+                            </div>
+                            <div class="param-card" data-lines="187">
+                                <div class="param-name">temp</div>
+                                <div class="param-value">0.5</div>
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <div class="flow-step" id="step2">
-                        <div class="flow-step-number">2</div>
-                        <div class="flow-step-content">
-                            <div class="flow-step-title">Forward Pass</div>
-                            <div class="flow-step-desc">gpt(token_id, pos_id, keys, values) → logits</div>
-                            <div class="code-snippet" style="margin: 0.5rem 0 0;">
-for pos_id in range(n):
-    logits = gpt(tokens[pos_id], pos_id, keys, values)
-    probs = softmax(logits)
-                            </div>
+                <!-- Functions Reference -->
+                <section class="section">
+                    <h3>🔧 Quick Functions</h3>
+                    <div class="param-grid">
+                        <div class="param-card" data-lines="94-95">
+                            <div class="param-name">linear()</div>
+                            <div class="param-value">lines 94-95</div>
+                        </div>
+                        <div class="param-card" data-lines="97-101">
+                            <div class="param-name">softmax()</div>
+                            <div class="param-value">lines 97-101</div>
+                        </div>
+                        <div class="param-card" data-lines="103-106">
+                            <div class="param-name">rmsnorm()</div>
+                            <div class="param-value">lines 103-106</div>
+                        </div>
+                        <div class="param-card" data-lines="108-144">
+                            <div class="param-name">gpt()</div>
+                            <div class="param-value">lines 108-144</div>
                         </div>
                     </div>
+                </section>
+            </main>
+        </div>
 
-                    <div class="flow-step" id="step3">
-                        <div class="flow-step-number">3</div>
-                        <div class="flow-step-content">
-                            <div class="flow-step-title">Loss Computation</div>
-                            <div class="flow-step-desc">Cross-entropy: -log(prob[target])</div>
-                            <div class="code-snippet" style="margin: 0.5rem 0 0;">
-loss_t = -probs[target_id].log()
-loss = (1/n) * sum(losses)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flow-step" id="step4">
-                        <div class="flow-step-number">4</div>
-                        <div class="flow-step-content">
-                            <div class="flow-step-title">Backward Pass</div>
-                            <div class="flow-step-desc">loss.backward() → compute gradients</div>
-                            <div class="code-snippet" style="margin: 0.5rem 0 0;">
-loss.backward()  <span class="code-comment"># fills p.grad for all params</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flow-step" id="step5">
-                        <div class="flow-step-number">5</div>
-                        <div class="flow-step-content">
-                            <div class="flow-step-title">Adam Optimizer Update</div>
-                            <div class="flow-step-desc">p.data -= lr × m̂ / (√v̂ + ε)</div>
-                            <div class="code-snippet" style="margin: 0.5rem 0 0;">
-m = β₁m + (1-β₁)grad
-v = β₂v + (1-β₂)grad²
-p.data -= lr × m̂ / (√v̂ + ε)
-p.grad = 0
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>📊 Training Progress</h3>
-                <div class="param-grid">
-                    <div class="param-card">
-                        <div class="param-name">learning_rate</div>
-                        <div class="param-value">1e-2</div>
-                    </div>
-                    <div class="param-card">
-                        <div class="param-name">beta1, beta2</div>
-                        <div class="param-value">0.9, 0.95</div>
-                    </div>
-                    <div class="param-card">
-                        <div class="param-name">num_steps</div>
-                        <div class="param-value">500</div>
-                    </div>
-                    <div class="param-card">
-                        <div class="param-name">temperature</div>
-                        <div class="param-value">0.5</div>
-                    </div>
-                </div>
-
-                <h3>📈 Cosine Learning Rate Schedule</h3>
-                <div class="equation">
-                    lr<sub>t</sub> = lr<sub>max</sub> × 0.5 × (1 + cos(π × t / T))
-                </div>
-                <p>Gradually reduces learning rate from initial to near zero over training.</p>
-
-                <div class="progress-container">
-                    <div class="progress-bar" id="trainingProgress" style="width: 0%;">0/500</div>
-                </div>
-
-                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
-                    <span style="color: var(--text-secondary);">Current Loss: </span>
-                    <span id="lossDisplay" style="color: var(--accent-orange); font-weight: bold; font-size: 1.2rem;">---</span>
-                </div>
-
-                <h3>🎮 Controls</h3>
-                <div class="controls">
-                    <button class="btn" onclick="animateTraining()">▶️ Animate Training Loop</button>
-                    <button class="btn secondary" onclick="resetTraining()">↺ Reset</button>
-                    <button class="btn secondary" onclick="runFullTraining()">⏩ Fast Training Demo</button>
+        <div class="right-panel">
+            <div class="code-header">
+                <h3>📄 microgpt.py</h3>
+                <div class="code-header-actions">
+                    <button class="btn secondary" onclick="scrollToTop()">⬆️ Top</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Variables Reference Section -->
-        <section class="section">
-            <h2>📚 Variable Reference</h2>
-            <p>Quick lookup for key variables matching the Python implementation.</p>
-
-            <div class="param-grid">
-                <div class="param-card">
-                    <div class="param-name">wte</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Token Embeddings</div>
-                    <div class="param-value">27×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">wpe</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Position Embeddings</div>
-                    <div class="param-value">8×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">attn_wq</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Attention Q proj</div>
-                    <div class="param-value">16×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">attn_wk</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Attention K proj</div>
-                    <div class="param-value">16×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">attn_wv</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Attention V proj</div>
-                    <div class="param-value">16×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">attn_wo</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Attention Output</div>
-                    <div class="param-value">16×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">mlp_fc1</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">MLP expansion</div>
-                    <div class="param-value">64×16</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">mlp_fc2</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">MLP projection</div>
-                    <div class="param-value">16×64</div>
-                </div>
-                <div class="param-card">
-                    <div class="param-name">lm_head</div>
-                    <div style="color: var(--text-secondary); font-size: 0.85rem;">Language Model Head</div>
-                    <div class="param-value">27×16</div>
-                </div>
+            <div class="code-viewer" id="codeViewer">
+                <!-- Code will be loaded here -->
             </div>
-        </section>
-
-        <!-- Paper Architecture Comparison -->
-        <section class="section">
-            <h2>🔗 Connection to "Attention Is All You Need" (2017)</h2>
-
-            <h3>Architecture Mapping</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-                <tr style="background: var(--bg-tertiary);">
-                    <th style="padding: 1rem; text-align: left;">Paper Component</th>
-                    <th style="padding: 1rem; text-align: left;">MicroGPT Variable</th>
-                    <th style="padding: 1rem; text-align: left;">Notes</th>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">d<sub>model</sub></td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-var">n_embd</span> = 16</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Paper uses 512</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">h (heads)</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-var">n_head</span> = 4</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Paper uses 8</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">d<sub>k</sub> = d<sub>v</sub> = d<sub>model</sub>/h</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-var">head_dim</span> = 4</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">16 / 4 = 4</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">d<sub>ff</sub></td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">4 × <span class="code-var">n_embd</span> = 64</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Paper uses 4×d<sub>model</sub></td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">LayerNorm</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-func">rmsnorm</span></td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Simplified, no bias</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Activation</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-func">relu</span>²</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Paper uses ReLU (approx GeLU in later work)</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">N (layers)</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);"><span class="code-var">n_layer</span> = 1</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--bg-tertiary);">Paper uses 6</td>
-                </tr>
-                <tr>
-                    <td style="padding: 1rem;">Position Encoding</td>
-                    <td style="padding: 1rem;"><span class="code-var">wpe</span> (learned)</td>
-                    <td style="padding: 1rem;">Paper uses sinusoidal (learned in practice)</td>
-                </tr>
-            </table>
-
-            <h3 style="margin-top: 2rem;">Key Differences from Paper</h3>
-            <ul style="margin-top: 1rem; padding-left: 2rem; color: var(--text-secondary);">
-                <li style="margin-bottom: 0.5rem;"><strong>Pre-LN vs Post-LN</strong>: MicroGPT uses pre-layer norm (like GPT-2), paper uses post-layer norm</li>
-                <li style="margin-bottom: 0.5rem;"><strong>Decoder-only</strong>: MicroGPT is GPT-style decoder (causal mask), paper has encoder-decoder</li>
-                <li style="margin-bottom: 0.5rem;"><strong>No biases</strong>: Simplified implementation, all linear layers are bias-free</li>
-                <li style="margin-bottom: 0.5rem;"><strong>Activation</strong>: ReLU² approximates squared ReLU (similar to GeLU's shape)</li>
-                <li><strong>Scale</strong>: Educational scale (tiny model) vs production scale</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Built for educational purposes • Based on <a href="microgpt.py" style="color: var(--accent-blue);">microgpt.py</a> by Andrej Karpathy</p>
-        <p style="margin-top: 0.5rem;">Reference: <a href="https://arxiv.org/abs/1706.03762" target="_blank" style="color: var(--accent-blue);">Attention Is All You Need</a> (Vaswani et al., 2017)</p>
-    </footer>
+        </div>
+    </div>
 
     <div class="tooltip" id="tooltip"></div>
 
     <script>
+        // Python code content with syntax highlighting
+        const pythonCode = `"""
+The most atomic way to train and inference a GPT in pure, dependency-free Python.
+This file is the complete algorithm.
+Everything else is just efficiency.
+
+@karpathy
+"""
+
+import os       # os.path.exists
+import math     # math.log, math.exp
+import random   # random.seed, random.choices, random.gauss, random.shuffle
+random.seed(42) # Let there be order among chaos
+
+# Let there be an input dataset \`docs\`: list[str] of documents (e.g. a dataset of names)
+if not os.path.exists('input.txt'):
+    import urllib.request
+    names_url = 'https://raw.githubusercontent.com/karpathy/makemore/refs/heads/master/names.txt'
+    urllib.request.urlretrieve(names_url, 'input.txt')
+docs = [l.strip() for l in open('input.txt').read().strip().split('\\n') if l.strip()] # list[str] of documents
+random.shuffle(docs)
+print(f"num docs: {len(docs)}")
+
+# Let there be a Tokenizer to translate strings to discrete symbols and back
+uchars = sorted(set(''.join(docs))) # unique characters in the dataset become token ids 0..n-1
+BOS = len(uchars) # token id for the special Beginning of Sequence (BOS) token
+vocab_size = len(uchars) + 1 # total number of unique tokens, +1 is for BOS
+print(f"vocab size: {vocab_size}")
+
+# Let there be an Autograd to apply the chain rule recursively across a computation graph
+class Value:
+    """Stores a single scalar value and its gradient, as a node in a computation graph."""
+
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = data                # scalar value of this node calculated during forward pass
+        self.grad = 0                   # derivative of the loss w.r.t. this node, calculated in backward pass
+        self._children = children       # children of this node in the computation graph
+        self._local_grads = local_grads # local derivative of this node w.r.t. its children
+
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+
+    def __pow__(self, other): return Value(self.data**other, (self,), (other * self.data**(other-1),))
+    def log(self): return Value(math.log(self.data), (self,), (1/self.data,))
+    def exp(self): return Value(math.exp(self.data), (self,), (math.exp(self.data),))
+    def relu(self): return Value(max(0, self.data), (self,), (float(self.data > 0),))
+    def __neg__(self): return self * -1
+    def __radd__(self, other): return self + other
+    def __sub__(self, other): return self + (-other)
+    def __rsub__(self, other): return other + (-self)
+    def __rmul__(self, other): return self * other
+    def __truediv__(self, other): return self * other**-1
+    def __rtruediv__(self, other): return other * self**-1
+
+    def backward(self):
+        topo = []
+        visited = set()
+        def build_topo(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._children:
+                    build_topo(child)
+                topo.append(v)
+        build_topo(self)
+        self.grad = 1
+        for v in reversed(topo):
+            for child, local_grad in zip(v._children, v._local_grads):
+                child.grad += local_grad * v.grad
+
+# Initialize the parameters, to store the knowledge of the model.
+n_embd = 16     # embedding dimension
+n_head = 4      # number of attention heads
+n_layer = 1     # number of layers
+block_size = 8  # maximum sequence length
+head_dim = n_embd // n_head # dimension of each head
+matrix = lambda nout, nin, std=0.02: [[Value(random.gauss(0, std)) for _ in range(nin)] for _ in range(nout)]
+state_dict = {'wte': matrix(vocab_size, n_embd), 'wpe': matrix(block_size, n_embd), 'lm_head': matrix(vocab_size, n_embd)}
+for i in range(n_layer):
+    state_dict[f'layer{i}.attn_wq'] = matrix(n_embd, n_embd)
+    state_dict[f'layer{i}.attn_wk'] = matrix(n_embd, n_embd)
+    state_dict[f'layer{i}.attn_wv'] = matrix(n_embd, n_embd)
+    state_dict[f'layer{i}.attn_wo'] = matrix(n_embd, n_embd, std=0)
+    state_dict[f'layer{i}.mlp_fc1'] = matrix(4 * n_embd, n_embd)
+    state_dict[f'layer{i}.mlp_fc2'] = matrix(n_embd, 4 * n_embd, std=0)
+params = [p for mat in state_dict.values() for row in mat for p in row] # flatten params into a single list[Value]
+print(f"num params: {len(params)}")
+
+# Define the model architecture: a stateless function mapping token sequence and parameters to logits over what comes next.
+# Follow GPT-2, blessed among the GPTs, with minor differences: layernorm -> rmsnorm, no biases, GeLU -> ReLU^2
+def linear(x, w):
+    return [sum(wi * xi for wi, xi in zip(wo, x)) for wo in w]
+
+def softmax(logits):
+    max_val = max(val.data for val in logits)
+    exps = [(val - max_val).exp() for val in logits]
+    total = sum(exps)
+    return [e / total for e in exps]
+
+def rmsnorm(x):
+    ms = sum(xi * xi for xi in x) / len(x)
+    scale = (ms + 1e-5) ** -0.5
+    return [xi * scale for xi in x]
+
+def gpt(token_id, pos_id, keys, values):
+    tok_emb = state_dict['wte'][token_id] # token embedding
+    pos_emb = state_dict['wpe'][pos_id] # position embedding
+    x = [t + p for t, p in zip(tok_emb, pos_emb)] # joint token and position embedding
+    x = rmsnorm(x)
+
+    for li in range(n_layer):
+        # 1) Multi-head attention block
+        x_residual = x
+        x = rmsnorm(x)
+        q = linear(x, state_dict[f'layer{li}.attn_wq'])
+        k = linear(x, state_dict[f'layer{li}.attn_wk'])
+        v = linear(x, state_dict[f'layer{li}.attn_wv'])
+        keys[li].append(k)
+        values[li].append(v)
+        x_attn = []
+        for h in range(n_head):
+            hs = h * head_dim
+            q_h = q[hs:hs+head_dim]
+            k_h = [ki[hs:hs+head_dim] for ki in keys[li]]
+            v_h = [vi[hs:hs+head_dim] for vi in values[li]]
+            attn_logits = [sum(q_h[j] * k_h[t][j] for j in range(head_dim)) / head_dim**0.5 for t in range(len(k_h))]
+            attn_weights = softmax(attn_logits)
+            head_out = [sum(attn_weights[t] * v_h[t][j] for t in range(len(v_h))) for j in range(head_dim)]
+            x_attn.extend(head_out)
+        x = linear(x_attn, state_dict[f'layer{li}.attn_wo'])
+        x = [a + b for a, b in zip(x, x_residual)]
+        # 2) MLP block
+        x_residual = x
+        x = rmsnorm(x)
+        x = linear(x, state_dict[f'layer{li}.mlp_fc1'])
+        x = [xi.relu() ** 2 for xi in x]
+        x = linear(x, state_dict[f'layer{li}.mlp_fc2'])
+        x = [a + b for a, b in zip(x, x_residual)]
+
+    logits = linear(x, state_dict['lm_head'])
+    return logits
+
+# Let there be Adam, the blessed optimizer and its buffers
+learning_rate, beta1, beta2, eps_adam = 1e-2, 0.9, 0.95, 1e-8
+m = [0.0] * len(params) # first moment buffer
+v = [0.0] * len(params) # second moment buffer
+
+# Repeat in sequence
+num_steps = 500 # number of training steps
+for step in range(num_steps):
+
+    # Take single document, tokenize it, surround it with BOS special token on both sides
+    doc = docs[step % len(docs)]
+    tokens = [BOS] + [uchars.index(ch) for ch in doc] + [BOS]
+    n = min(block_size, len(tokens) - 1)
+
+    # Forward the token sequence through the model, building up the computation graph all the way to the loss.
+    keys, values = [[] for _ in range(n_layer)], [[] for _ in range(n_layer)]
+    losses = []
+    for pos_id in range(n):
+        token_id, target_id = tokens[pos_id], tokens[pos_id + 1]
+        logits = gpt(token_id, pos_id, keys, values)
+        probs = softmax(logits)
+        loss_t = -probs[target_id].log()
+        losses.append(loss_t)
+    loss = (1 / n) * sum(losses) # final average loss over the document sequence. May yours be low.
+
+    # Backward the loss, calculating the gradients with respect to all model parameters.
+    loss.backward()
+
+    # Adam optimizer update: update the model parameters based on the corresponding gradients.
+    lr_t = learning_rate * 0.5 * (1 + math.cos(math.pi * step / num_steps)) # cosine learning rate decay
+    for i, p in enumerate(params):
+        m[i] = beta1 * m[i] + (1 - beta1) * p.grad
+        v[i] = beta2 * v[i] + (1 - beta2) * p.grad ** 2
+        m_hat = m[i] / (1 - beta1 ** (step + 1))
+        v_hat = v[i] / (1 - beta2 ** (step + 1))
+        p.data -= lr_t * m_hat / (v_hat ** 0.5 + eps_adam)
+        p.grad = 0
+
+    print(f"step {step+1:4d} / {num_steps:4d} | loss {loss.data:.4f}")
+
+# Inference: may the model babble back to us
+temperature = 0.5 # in (0, 1], control the "creativity" of generated text, low to high
+print("\\n--- inference ---")
+for sample_idx in range(20):
+    keys, values = [[] for _ in range(n_layer)], [[] for _ in range(n_layer)]
+    token_id = BOS
+    sample = []
+    for pos_id in range(block_size):
+        logits = gpt(token_id, pos_id, keys, values)
+        probs = softmax([l / temperature for l in logits])
+        token_id = random.choices(range(vocab_size), weights=[p.data for p in probs])[0]
+        if token_id == BOS:
+            break
+        sample.append(uchars[token_id])
+    print(f"sample {sample_idx+1:2d}: {''.join(sample)}")`;
+
+        // Python syntax highlighting
+        function highlightPython(code) {
+            const keywords = ['def', 'class', 'return', 'if', 'else', 'elif', 'for', 'in', 'range', 'while', 'import', 'from', 'as', 'True', 'False', 'None', 'and', 'or', 'not', 'is', 'lambda', 'with', 'try', 'except', 'finally', 'raise', 'pass', 'break', 'continue', 'assert', 'global', 'nonlocal', 'del', 'yield', 'async', 'await'];
+            const builtins = ['print', 'len', 'sum', 'max', 'min', 'abs', 'round', 'int', 'float', 'str', 'list', 'dict', 'set', 'tuple', 'bool', 'type', 'isinstance', 'open', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'reversed', 'any', 'all', 'range'];
+            const decorators = ['@'];
+
+            let result = code
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Strings (triple and single/double quoted)
+            result = result.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span class="py-string">$1</span>');
+
+            // Comments
+            result = result.replace(/(#.*)$/gm, '<span class="py-comment">$1</span>');
+
+            // Decorators
+            result = result.replace(/^(\s*)(@\w+)/gm, '$1<span class="py-decorator">$2</span>');
+
+            // Keywords
+            const keywordPattern = new RegExp(`\\b(${keywords.join('|')})\\b`, 'g');
+            result = result.replace(keywordPattern, '<span class="py-keyword">$1</span>');
+
+            // Built-ins
+            const builtinPattern = new RegExp(`\\b(${builtins.join('|')})\\b`, 'g');
+            result = result.replace(builtinPattern, '<span class="py-builtin">$1</span>');
+
+            // Function definitions
+            result = result.replace(/\b(def|class)\s+(\w+)/g, '<span class="py-keyword">$1</span> <span class="py-function">$2</span>');
+
+            // Numbers
+            result = result.replace(/\b(\d+\.?\d*)\b/g, '<span class="py-number">$1</span>');
+
+            // Operators
+            result = result.replace(/([+\-*/%=<>!&|^~?:]+)/g, '<span class="py-operator">$1</span>');
+
+            return result;
+        }
+
+        // Initialize code viewer
+        function initCodeViewer() {
+            const codeViewer = document.getElementById('codeViewer');
+            const lines = pythonCode.split('\n');
+
+            codeViewer.innerHTML = lines.map((line, index) => {
+                const highlightedLine = highlightPython(line);
+                return `<div class="code-line" data-line="${index + 1}">
+                    <div class="code-line-number">${index + 1}</div>
+                    <div class="code-line-content">${highlightedLine}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // Highlight lines in code
+        function highlightLines(lineRanges) {
+            // Remove existing highlights
+            document.querySelectorAll('.code-line').forEach(line => {
+                line.classList.remove('highlighted');
+            });
+
+            // Parse line ranges (e.g., "10-15", "20", "5-10,20-25")
+            const ranges = lineRanges.split(',').flatMap(range => {
+                const [start, end] = range.trim().split('-').map(n => parseInt(n));
+                if (end) {
+                    return Array.from({length: end - start + 1}, (_, i) => start + i);
+                }
+                return [start];
+            });
+
+            // Highlight new lines
+            ranges.forEach(lineNum => {
+                const lineEl = document.querySelector(`.code-line[data-line="${lineNum}"]`);
+                if (lineEl) {
+                    lineEl.classList.add('highlighted');
+                }
+            });
+
+            // Scroll to first highlighted line
+            const firstLineEl = document.querySelector(`.code-line[data-line="${ranges[0]}"]`);
+            if (firstLineEl) {
+                firstLineEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            document.querySelector('.right-panel').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -1070,44 +1095,41 @@ p.grad = 0
             });
         });
 
-        // Tooltip
-        const tooltip = document.getElementById('tooltip');
-
-        function showTooltip(e, content) {
-            tooltip.innerHTML = content;
-            tooltip.style.left = e.pageX + 10 + 'px';
-            tooltip.style.top = e.pageY + 10 + 'px';
-            tooltip.classList.add('show');
+        // Click handlers for blocks and cards
+        function setupClickHandlers() {
+            document.querySelectorAll('.arch-block, .param-card, .btn').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const lines = el.dataset.lines;
+                    if (lines) {
+                        highlightLines(lines);
+                        e.stopPropagation();
+                    }
+                });
+            });
         }
 
-        function hideTooltip() {
-            tooltip.classList.remove('show');
-        }
-
-        document.addEventListener('mousemove', (e) => {
-            if (tooltip.classList.contains('show')) {
-                tooltip.style.left = e.pageX + 10 + 'px';
-                tooltip.style.top = e.pageY + 10 + 'px';
-            }
-        });
-
-        // Architecture Animation
+        // Architecture animation
         let architectureAnimationRunning = false;
 
         async function animateArchitecture() {
             if (architectureAnimationRunning) return;
             architectureAnimationRunning = true;
 
-            const blocks = document.querySelectorAll('.arch-block');
             const order = ['input', 'embed', 'prenorm', 'attn', 'residual1', 'mlp', 'residual2', 'output'];
 
-            resetArchitecture();
+            document.querySelectorAll('.arch-block').forEach(b => {
+                b.classList.remove('active', 'pulse');
+            });
 
             for (const blockId of order) {
                 const block = document.querySelector(`.arch-block[data-block="${blockId}"]`);
                 if (block) {
                     block.classList.add('active', 'pulse');
-                    await sleep(600);
+                    const lines = block.dataset.lines;
+                    if (lines) {
+                        highlightLines(lines);
+                    }
+                    await sleep(800);
                     block.classList.remove('pulse');
                 }
             }
@@ -1115,123 +1137,7 @@ p.grad = 0
             architectureAnimationRunning = false;
         }
 
-        function resetArchitecture() {
-            document.querySelectorAll('.arch-block').forEach(b => {
-                b.classList.remove('active', 'pulse');
-            });
-        }
-
-        // Computation Graph
-        function initComputationGraph() {
-            const container = document.getElementById('computationGraph');
-            container.innerHTML = '';
-
-            const nodes = [
-                { id: 'loss', x: 350, y: 50, label: 'Loss', type: 'loss' },
-                { id: 'logits', x: 350, y: 150, label: 'logits', type: 'param' },
-                { id: 'softmax', x: 350, y: 250, label: 'softmax', type: 'param' },
-                { id: 'probs', x: 350, y: 350, label: 'probs', type: 'param' },
-                { id: 'mlp_fc2', x: 550, y: 250, label: 'mlp_fc2', type: 'param' },
-                { id: 'mlp_fc1', x: 550, y: 150, label: 'mlp_fc1', type: 'param' },
-                { id: 'attn_wo', x: 150, y: 250, label: 'attn_wo', type: 'param' },
-                { id: 'attn_wv', x: 150, y: 150, label: 'attn_wv', type: 'param' },
-                { id: 'attn_wk', x: 150, y: 250, label: 'attn_wk', type: 'param' },
-                { id: 'attn_wq', x: 150, y: 150, label: 'attn_wq', type: 'param' },
-                { id: 'x', x: 250, y: 200, label: 'x', type: 'param' },
-            ];
-
-            const edges = [
-                ['loss', 'logits'],
-                ['logits', 'softmax'],
-                ['softmax', 'probs'],
-                ['probs', 'x'],
-                ['mlp_fc2', 'mlp_fc1'],
-                ['mlp_fc1', 'x'],
-                ['attn_wo', 'attn_wq'],
-                ['attn_wo', 'attn_wk'],
-                ['attn_wo', 'attn_wv'],
-                ['attn_wq', 'x'],
-                ['attn_wk', 'x'],
-                ['attn_wv', 'x'],
-            ];
-
-            // Draw edges
-            edges.forEach(([from, to]) => {
-                const fromNode = nodes.find(n => n.id === from);
-                const toNode = nodes.find(n => n.id === to);
-                if (fromNode && toNode) {
-                    const edge = document.createElement('div');
-                    edge.className = 'graph-edge';
-
-                    const dx = toNode.x - fromNode.x;
-                    const dy = toNode.y - fromNode.y;
-                    const length = Math.sqrt(dx * dx + dy * dy);
-                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-
-                    edge.style.width = length + 'px';
-                    edge.style.left = fromNode.x + 40 + 'px';
-                    edge.style.top = fromNode.y + 40 + 'px';
-                    edge.style.transform = `rotate(${angle}deg)`;
-
-                    container.appendChild(edge);
-                }
-            });
-
-            // Draw nodes
-            nodes.forEach(node => {
-                const el = document.createElement('div');
-                el.className = `graph-node ${node.type}`;
-                el.style.left = node.x + 'px';
-                el.style.top = node.y + 'px';
-                el.textContent = node.label;
-                el.dataset.id = node.id;
-
-                el.addEventListener('click', () => showGradientInfo(node));
-                el.addEventListener('mouseenter', (e) => {
-                    showTooltip(e, `<strong>${node.label}</strong><br>∂L/∂${node.id} = ${node.type === 'loss' ? 1 : (Math.random() * 0.1).toFixed(4)}`);
-                });
-                el.addEventListener('mouseleave', hideTooltip);
-
-                container.appendChild(el);
-            });
-        }
-
-        function showGradientInfo(node) {
-            const gradientDisplay = document.getElementById('gradientInfo');
-            const gradValue = node.type === 'loss' ? '1.0000' : (Math.random() * 0.1).toFixed(4);
-            gradientDisplay.innerHTML = `
-                <strong style="color: var(--accent-blue);">∂L/∂${node.id}</strong> = ${gradValue}<br>
-                <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                Chain rule: gradient flows through children in topological order
-                </span>
-            `;
-
-            // Highlight node
-            document.querySelectorAll('.graph-node').forEach(n => n.classList.remove('active'));
-            document.querySelector(`.graph-node[data-id="${node.id}"]`)?.classList.add('active');
-        }
-
-        async function animateBackprop() {
-            const nodes = document.querySelectorAll('.graph-node');
-            const order = ['loss', 'logits', 'softmax', 'probs', 'x', 'attn_wq', 'attn_wk', 'attn_wv', 'attn_wo', 'mlp_fc1', 'mlp_fc2'];
-
-            for (const nodeId of order) {
-                const node = document.querySelector(`.graph-node[data-id="${nodeId}"]`);
-                if (node) {
-                    node.classList.add('active', 'pulse');
-                    showGradientInfo({ id: nodeId, type: nodeId === 'loss' ? 'loss' : 'param' });
-                    await sleep(400);
-                    node.classList.remove('pulse');
-                }
-            }
-        }
-
-        function resetGraph() {
-            initComputationGraph();
-            document.getElementById('gradientInfo').innerHTML = 'Hover over or click a node to see gradient information...';
-        }
-
-        // Attention Grid
+        // Attention grid
         function initAttentionGrid() {
             const grid = document.getElementById('attentionGrid');
             grid.innerHTML = '';
@@ -1243,7 +1149,6 @@ p.grad = 0
                     cell.dataset.t = t;
                     cell.dataset.tau = tau;
 
-                    // Causal mask: can only attend to tau <= t
                     const isAttended = tau <= t;
                     const weight = isAttended ? Math.exp(-Math.abs(t - tau) * 0.5) : 0;
                     const normalized = isAttended ? weight / Array.from({length: t + 1}, (_, i) => Math.exp(-Math.abs(t - i) * 0.5)).reduce((a, b) => a + b, 0) : 0;
@@ -1253,16 +1158,11 @@ p.grad = 0
                         ? `rgb(${intensity}, ${intensity}, ${intensity + 50})`
                         : 'var(--bg-tertiary)';
 
-                    cell.textContent = isAttended ? normalized.toFixed(2) : '';
+                    cell.textContent = isAttended ? normalized.toFixed(1) : '';
 
-                    cell.addEventListener('mouseenter', (e) => {
-                        showTooltip(e, `
-                            <strong>Attention(t=${t}, τ=${tau})</strong><br>
-                            Weight: ${normalized.toFixed(4)}<br>
-                            ${tau <= t ? '✓ Attended (causal mask)' : '✗ Masked (future token)'}
-                        `);
+                    cell.addEventListener('click', () => {
+                        highlightLines('118-133');
                     });
-                    cell.addEventListener('mouseleave', hideTooltip);
 
                     grid.appendChild(cell);
                 }
@@ -1295,69 +1195,31 @@ p.grad = 0
                 if (isAttended) {
                     const weight = Math.random();
                     cell.style.backgroundColor = `rgb(${Math.floor(weight * 255)}, ${Math.floor(weight * 200)}, ${Math.floor(weight * 100 + 50)})`;
-                    cell.textContent = weight.toFixed(2);
+                    cell.textContent = weight.toFixed(1);
                 }
             });
         }
 
-        // Training Animation
-        let trainingAnimationRunning = false;
+        // Tooltip
+        const tooltip = document.getElementById('tooltip');
 
-        async function animateTraining() {
-            if (trainingAnimationRunning) return;
-            trainingAnimationRunning = true;
+        function showTooltip(e, content) {
+            tooltip.innerHTML = content;
+            tooltip.style.left = e.pageX + 10 + 'px';
+            tooltip.style.top = e.pageY + 10 + 'px';
+            tooltip.classList.add('show');
+        }
 
-            const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
-            const losses = [3.2, 2.8, 2.5, 2.2, 1.9, 1.7, 1.5, 1.3, 1.2, 1.1];
+        function hideTooltip() {
+            tooltip.classList.remove('show');
+        }
 
-            for (let i = 0; i < losses.length; i++) {
-                const stepIndex = i % steps.length;
-                const stepId = steps[stepIndex];
-
-                document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-                document.getElementById(stepId)?.classList.add('active');
-
-                const loss = losses[i] - (Math.random() * 0.1);
-                document.getElementById('lossDisplay').textContent = loss.toFixed(4);
-
-                const progress = ((i + 1) / losses.length) * 100;
-                const progressBar = document.getElementById('trainingProgress');
-                progressBar.style.width = progress + '%';
-                progressBar.textContent = `${Math.floor(progress * 5 / 100)}/${losses.length}`;
-
-                await sleep(800);
+        document.addEventListener('mousemove', (e) => {
+            if (tooltip.classList.contains('show')) {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
             }
-
-            trainingAnimationRunning = false;
-        }
-
-        function resetTraining() {
-            document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('trainingProgress').style.width = '0%';
-            document.getElementById('trainingProgress').textContent = '0/500';
-            document.getElementById('lossDisplay').textContent = '---';
-        }
-
-        async function runFullTraining() {
-            if (trainingAnimationRunning) return;
-            trainingAnimationRunning = true;
-
-            const progressBar = document.getElementById('trainingProgress');
-            const lossDisplay = document.getElementById('lossDisplay');
-
-            for (let step = 0; step <= 500; step += 10) {
-                const progress = (step / 500) * 100;
-                const loss = 3.5 * Math.exp(-step / 100) + 0.5 + Math.random() * 0.1;
-
-                progressBar.style.width = progress + '%';
-                progressBar.textContent = `${step}/${500}`;
-                lossDisplay.textContent = loss.toFixed(4);
-
-                await sleep(20);
-            }
-
-            trainingAnimationRunning = false;
-        }
+        });
 
         // Utility
         function sleep(ms) {
@@ -1366,8 +1228,9 @@ p.grad = 0
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
-            initComputationGraph();
+            initCodeViewer();
             initAttentionGrid();
+            setupClickHandlers();
         });
     </script>
 </body>
